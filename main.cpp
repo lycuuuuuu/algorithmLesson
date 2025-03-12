@@ -2,140 +2,144 @@
 #include "practice1_mergeSort.cpp" // 包含头文件
 #include "practice1_heapSort.cpp"
 #include "practice1_quickSort.cpp"
+#include "getData.cpp"
+#include "putData.cpp"
 #include <cstdlib>   // 包含 rand() 和 srand()
 #include <ctime>     // 包含 time()
 #include <chrono>
 
-using namespace std; // 方便使用 cout
+//#define DATA_TEMP 1
+
+//#define DATA_RANDOM 1
+//
+//#define DATA_ORDER 1
+//
+//#define DATA_REVERSED_ORDER 1
+
+using namespace std;
 using namespace chrono;
 
-//int main() {
-//    // 随机生成很大的数组进行测试
-//    const int arraySize = 1000; // 数组大小
-//    double Data[arraySize];
-//
-//    // 初始化随机数种子
-//    srand(time(0)); //  time(0) 返回当前时间，作为随机数种子
-//
-//    for (int i = 0; i < arraySize; ++i) {
-//        Data[i] = rand() % 1000; // 生成 0 到 999 之间的随机整数，并转换为 double
-//    }
-//
-//    auto start = high_resolution_clock ::now();
-//
-//    mergeSort(Data, 1, arraySize);  // 注意这里的索引
-//
-//    auto end = high_resolution_clock ::now();
-//
-//    auto time = duration_cast<microseconds>(end - start);
-//
-//    cout << "After sorting: ";
-//    for (int i = 0; i < arraySize; ++i) {
-//        cout << Data[i] << " ";
-//    }
-//    cout << endl;
-//    cout << "mergeSort run time : " << time.count() << "ms" <<endl;
-//
-//    return 0;
-//}
 
 
-//int main(){
-//    // 随机生成 100 个整数进行测试
-//    const int arraySize = 100;
-//    double Data[arraySize];
-//
-//    // 初始化随机数种子
-//    srand(time(0));
-//
-//    // 生成 0 到 999 之间的随机整数
-//    for (int i = 0; i < arraySize; ++i) {
-//        Data[i] = rand() % 1000;
-//    }
-//
-//
-//    auto start = high_resolution_clock :: now();
-//
-//    heapSort(Data, arraySize); // 传递数组和大小
-//
-//    auto end = high_resolution_clock :: now();
-//    auto time = duration_cast<microseconds>(end - start);
-//
+int main(){
+#ifdef DATA_TEMP
 
-//    cout << "After sorting: "; // 打印排序后所有元素
-//    for (int i = 0; i < arraySize; ++i) {
-//        cout << Data[i] << " ";
-//    }
-//    cout << endl;
-//
-//    // (可选) 验证排序结果
-//    bool isSorted = true;
-//    for (int i = 1; i < arraySize; ++i) {
-//        if (Data[i] > Data[i - 1]) { // 检查是否非递减
-//            cout << "this location is err: " << i << endl;
-//            isSorted = false;
-//            break;
-//        }
-//    }
-//
-//    if (isSorted) {
-//        cout << "The array is sorted correctly." << endl;
-//    } else {
-//        cout << "The array is NOT sorted correctly!" << endl;
-//    }
-//
-//    cout << "heapSort run time : " << time << endl;
+    string fileName = "D:\\ClionProject\\data\\city_temperature.csv";
 
-//    return 0;
-//}
+#elif DATA_RANDOM
+
+    string fileName = "D:\\ClionProject\\data\\tourism_dataset.csv";
+
+#elif DATA_ORDER
+
+    string fileName = "D:\\ClionProject\\data\\temp_order.csv";
+
+#elif DATA_REVERSED_ORDER
+    string fileName = "D:\\ClionProject\\data\\temp_reOrder.csv";
+
+#endif
+
+    vector<double> Data_quick = getData(fileName);
+    vector<double> Data_merge = getData(fileName);
+    vector<double> Data_heap = getData(fileName);
 
 
-//int main(){
-//        // 随机生成 100 个整数进行测试
-//    const int arraySize = 100;
-//    double Data[arraySize];
-//
-//    // 初始化随机数种子
-//    srand(time(0));
-//
-//    // 生成 0 到 999 之间的随机整数
-//    for (int i = 0; i < arraySize; ++i) {
-//        Data[i] = rand() % 1000;
-//    }
-//
-//
-//    auto start = high_resolution_clock ::now();
-//
-//    quickSort(Data, 1, arraySize); // 传递数组和大小
-//
-//    auto end = high_resolution_clock ::now();
-//    auto time = duration_cast<microseconds>(end - start);
-//
-//    cout << "After sorting: "; // 打印排序后所有元素
-//    for (int i = 0; i < arraySize; ++i) {
-//        cout << Data[i] << " ";
-//    }
-//    cout << endl;
-//
-//    // (可选) 验证排序结果
-//    bool isSorted = true;
-//    for (int i = 1; i < arraySize; ++i) {
-//        if (Data[i] < Data[i - 1]) { // 检查是否非递减
-//            cout << "this location is err: " << i << endl;
-//            isSorted = false;
-//            break;
-//        }
-//    }
-//
-//    if (isSorted) {
-//        cout << "The array is sorted correctly." << endl;
-//    } else {
-//        cout << "The array is NOT sorted correctly!" << endl;
-//    }
-//
-//
-//    cout << "quickSort run time : " << time.count() << endl;
-//
-//    return 0;
-//
-//}
+
+    /* 快排 */
+    auto start_quick = high_resolution_clock ::now();
+
+    quickSort(Data_quick.data(), 1, Data_quick.size());
+
+    auto end_quick = high_resolution_clock ::now();
+
+    auto time_quick = duration_cast<microseconds>(end_quick - start_quick);
+
+    cout << "quickSort run time : " << time_quick.count() << endl;
+
+
+
+
+
+
+
+    /* 归并排序 */
+    auto start_merge = high_resolution_clock ::now();
+
+    mergeSort(Data_merge.data(), 1, Data_merge.size());
+
+    auto end_merge = high_resolution_clock ::now();
+
+    auto time_merge = duration_cast<microseconds>(end_merge - start_merge);
+
+    cout << "mergeSort run time : " << time_merge.count() << endl;
+
+
+
+
+
+    /* 堆排序 */
+    auto start_heap = high_resolution_clock ::now();
+
+    mergeSort(Data_heap.data(), 1, Data_heap.size());
+
+    auto end_heap = high_resolution_clock ::now();
+
+    auto time_heap = duration_cast<microseconds>(end_heap - start_heap);
+
+    cout << "heapSort run time : " << time_heap.count() << endl;
+
+
+    /* 存放排序后数据 */
+#ifdef DATA_TEMP
+
+    string newFileName_quick = "D:\\ClionProject\\data\\quickSort\\city_temperature_sorted.csv";
+    putData(Data_quick, newFileName_quick, "data_sorted");
+
+
+    string newFileName_merge = "D:\\ClionProject\\data\\mergeSort\\city_temperature_sorted.csv";
+    putData(Data_merge, newFileName_merge, "data_sorted");
+
+    string newFileName_heap = "D:\\ClionProject\\data\\heapSort\\city_temperature_sorted.csv";
+    putData(Data_heap, newFileName_heap, "data_sorted");
+
+#elif DATA_RANDOM
+
+    string newFileName_quick = "D:\\ClionProject\\data\\quickSort\\random_sorted.csv";
+    putData(Data_quick, newFileName_quick, "data_sorted");
+
+
+    string newFileName_merge = "D:\\ClionProject\\data\\mergeSort\\random_sorted.csv";
+    putData(Data_merge, newFileName_merge, "data_sorted");
+
+    string newFileName_heap = "D:\\ClionProject\\data\\heapSort\\random_sorted.csv";
+    putData(Data_heap, newFileName_heap, "data_sorted");
+
+#elif DATA_ORDER
+
+    string newFileName_quick = "D:\\ClionProject\\data\\quickSort\\order_sorted.csv";
+    putData(Data_quick, newFileName_quick, "data_sorted");
+
+
+    string newFileName_merge = "D:\\ClionProject\\data\\mergeSort\\order_sorted.csv";
+    putData(Data_merge, newFileName_merge, "data_sorted");
+
+    string newFileName_heap = "D:\\ClionProject\\data\\heapSort\\order_sorted.csv";
+    putData(Data_heap, newFileName_heap, "data_sorted");
+
+#elif DATA_REVERSED_ORDER
+    string newFileName_quick = "D:\\ClionProject\\data\\quickSort\\reOrder_sorted.csv";
+    putData(Data_quick, newFileName_quick, "data_sorted");
+
+
+    string newFileName_merge = "D:\\ClionProject\\data\\mergeSort\\reOrder_sorted.csv";
+    putData(Data_merge, newFileName_merge, "data_sorted");
+
+    string newFileName_heap = "D:\\ClionProject\\data\\heapSort\\reOrder.csv";
+    putData(Data_heap, newFileName_heap, "data_sorted");
+
+#endif
+
+
+
+    return 0;
+}
